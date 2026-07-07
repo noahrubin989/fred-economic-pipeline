@@ -2,10 +2,13 @@ import os
 import requests
 from dotenv import load_dotenv
 
+from storage import init_db, save_observations
+
 load_dotenv()
 
 API_KEY = os.getenv("FRED_API_KEY")
 BASE_URL = "https://api.stlouisfed.org/fred"
+
 
 def get_series_metadata(series_id: str) -> dict:
     """Fetch metadata for a FRED series (title, frequency, units, etc.)."""
@@ -60,5 +63,13 @@ if __name__ == "__main__":
     ]
 
     print("Validating series IDs...\n")
-    for sid in series_ids:
-        validate_series(sid)
+    valid_ids = [sid for sid in series_ids if validate_series(sid)]
+
+    print("\nInitializing database...")
+    init_db()
+
+    print("\nFetching and saving observations...")
+    for sid in valid_ids:
+        data = get_observations(sid, start="2015-01-01")
+        save_observations(sid, data)
+        print(f"Saved {len(data)} observations for {sid}")
