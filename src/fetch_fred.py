@@ -7,7 +7,6 @@ load_dotenv()
 API_KEY = os.getenv("FRED_API_KEY")
 BASE_URL = "https://api.stlouisfed.org/fred"
 
-
 def get_series_metadata(series_id: str) -> dict:
     """Fetch metadata for a FRED series (title, frequency, units, etc.)."""
     url = f"{BASE_URL}/series"

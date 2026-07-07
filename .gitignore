@@ -14,5 +14,7 @@ data/*.json
 # Jupyter
 .ipynb_checkpoints/
 
+*.db
+
 # OS
 .DS_Store
