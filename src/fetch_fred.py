@@ -2,7 +2,7 @@ import os
 import requests
 from dotenv import load_dotenv
 
-from storage import init_db, save_observations
+from storage import init_db, save_observations, save_series_metadata
 
 load_dotenv()
 
@@ -73,6 +73,9 @@ if __name__ == "__main__":
 
     print("\nFetching and saving observations...")
     for sid in valid_ids:
+        meta = get_series_metadata(sid)
+        save_series_metadata(sid, meta["title"], meta["frequency"])
+
         data = get_observations(sid)
         save_observations(sid, data)
         print(f"Saved {len(data)} observations for {sid}")
