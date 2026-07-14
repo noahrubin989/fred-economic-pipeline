@@ -4,6 +4,8 @@ A data pipeline that pulls Australian macroeconomic indicators from the [FRED AP
 
 Covers: API ingestion, data validation, persistent storage, and reporting on streamlit
 
+**Live demo:** [fred-economic-pipeline.streamlit.app](https://fred-economic-pipeline.streamlit.app/)
+
 ## What it does
 
 ```
@@ -84,7 +86,7 @@ fred-economic-pipeline/
 ├── notebooks/
 │   └── notebook.ipynb        # Exploratory analysis
 ├── data/
-│   └── economic_data.db      # Generated locally, not tracked in git
+│   └── economic_data.db      # Committed to the repo (see note below) so the hosted app has data to serve
 ├── requirements.txt
 ├── .env.example
 └── README.md
@@ -99,6 +101,7 @@ A few decisions worth calling out, since they weren't arbitrary:
 - **Series titles stored in the database, not hardcoded in the app** — the dashboard reads human-readable labels from a `series_metadata` table populated directly from FRED's own metadata. Adding a new series to the ingestion list is the only step needed for it to show up correctly labeled everywhere.
 - **Raw index-level comparisons can be misleading** — some macro series (e.g. CPI across countries) use different base years, so comparing raw levels rather than growth rates can produce a misleading picture. Worth keeping in mind when extending this analysis.
 - **Scope** — this project intentionally stays focused on Australia rather than expanding indefinitely across countries or indicators. A small, well-understood set of series is more useful than a large, shallow one.
+- **The SQLite database is committed to the repo, against the usual "don't commit generated data" rule** — this is a deliberate exception made for deployment. Streamlit Community Cloud clones the repo fresh on each deploy, and since `data/*.db` was gitignored, the hosted app had no database to read from and failed on startup. Force-adding the `.db` file (`git add -f`) gives the hosted app something to serve without requiring the FRED API key to be re-run as a cloud secret. For a larger or frequently-changing dataset, the better long-term fix would be running the ingestion script on app startup (or on a schedule) rather than committing the database itself.
 
 ## Future work
 
