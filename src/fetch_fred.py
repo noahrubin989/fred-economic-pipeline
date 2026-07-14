@@ -54,22 +54,25 @@ def validate_series(series_id: str) -> bool:
 
 if __name__ == "__main__":
     series_ids = [
-        "IR3TIB01AUM156N",  # AU 3-month interbank rate (cash rate proxy)
-        "CCUSMA02AUM618N",  # AUD/USD exchange rate
-        "CPALTT01AUQ657N",  # AU CPI
-        "LRHUTTTTAUM156S",  # AU unemployment rate
-        "FEDFUNDS",         # US Fed funds rate
-        "CPIAUCSL",         # US CPI
+        "LRUNTTTTAUM156S",
+        "QAUR628BIS",
+        "IRLTLT01AUM156N",
+        "NGDPRSAXDCAUQ",
+        "AUSSPASTT01GYM",
+        "NBAUBIS",
+        "TRESEGAUM052N",
+        "LRINTTMAAUM156N",
+        "LRACTTMAAUQ156S",
     ]
 
     print("Validating series IDs...\n")
     valid_ids = [sid for sid in series_ids if validate_series(sid)]
 
-    print("\nInitializing database...")
+    print("\nInitialising database...")
     init_db()
 
     print("\nFetching and saving observations...")
     for sid in valid_ids:
-        data = get_observations(sid, start="2015-01-01")
+        data = get_observations(sid)
         save_observations(sid, data)
         print(f"Saved {len(data)} observations for {sid}")
