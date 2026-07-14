@@ -12,10 +12,10 @@ Covers: API ingestion, data validation, persistent storage, and reporting on str
 FRED API → validation → SQLite storage → Streamlit dashboard
 ```
 
-1. **Ingest** — pulls historical observations for a set of Australian macro series from FRED
-2. **Validate** — confirms each series ID actually resolves before fetching data, so a broken/renamed ID fails loudly and early rather than silently
-3. **Store** — writes observations and series metadata (human-readable titles, frequency) into a local SQLite database, using idempotent upserts so re-running the pipeline is always safe
-4. **Explore** — an interactive dashboard to select series, filter by date range, view trends, and export data to CSV
+1. **Ingest**: pulls historical observations for a set of Australian macro series from FRED
+2. **Validate**: confirms each series ID actually resolves before fetching data, so a broken/renamed ID fails loudly and early rather than silently
+3. **Store**: writes observations and series metadata (human-readable titles, frequency) into a local SQLite database, using idempotent upserts so re-running the pipeline is always safe
+4. **Explore**: an interactive dashboard to select series, filter by date range, view trends, and export data to CSV
 
 ## Series covered
 
@@ -67,7 +67,7 @@ FRED_API_KEY=your_key_here
 python src/fetch_fred.py
 ```
 
-This validates each series, initializes the database, and pulls full available history for all nine series into `data/economic_data.db`.
+This validates each series, initialises the database, and pulls full available history for all nine series into `data/economic_data.db`.
 
 **5. Launch the dashboard**
 
